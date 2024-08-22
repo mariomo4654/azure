@@ -1,7 +1,7 @@
 Resources
 | where type == "microsoft.compute/disks"
 | extend diskState = tostring(properties.diskState)
-| where diskState == "Unattached" and todatetime(properties.timeCreated) < ago(1h)
+| where diskState == "Unattached" and todatetime(properties.timeCreated) < ago(60d)
 | extend DaysUnused = datetime_diff('day', now(), todatetime(properties.LastOwnershipUpdateTime))
 | project id, diskState, resourceGroup, location, subscriptionId, 
           timeCreated = format_datetime(todatetime(properties.timeCreated), "dd-MM-yyyy"),
